@@ -4,24 +4,20 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-// ===============================
-// TEST API
-// ===============================
+// TEST
 app.get("/", (req, res) => {
   res.send("Seatalk Bot API is running 🚀");
 });
 
-// ===============================
-// WEBHOOK SEATALK
-// ===============================
+// WEBHOOK
 app.post("/webhook/seatalk", (req, res) => {
 
   console.log("Seatalk webhook body:", req.body);
 
-  // 🔹 Seatalk URL Verification
-  if (req.body.challenge) {
+  // Seatalk verification
+  if (req.body.event_type === "event_verification") {
     return res.status(200).json({
-      challenge: req.body.challenge
+      seatalk_challenge: req.body.event.seatalk_challenge
     });
   }
 
